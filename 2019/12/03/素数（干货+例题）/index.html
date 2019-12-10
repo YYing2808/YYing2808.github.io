@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>有关素数 - JOY</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="有关素数的一些算法和定理素数的判定：
+
+费马小定理——用于素数的==快速判定==对于质数p，任意整数a均满足：a^p^ ≡ a( mod p)
+
+ 素数的筛选：
+
+素数埃氏筛法求区间【2，n】中的所,"> 
+    <meta name="author" content="joy"> 
+    <link rel="alternative" href="atom.xml" title="JOY" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">JOY</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" target="_blank" rel="noopener" data-url="http://joying.xyz"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">有关素数</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" target="_blank" rel="noopener" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;" target="_blank" rel="noopener"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">有关素数</h1>
+        <div class="stuff">
+            <span>十二月 03, 2019</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>有关素数的一些算法和定理<br><em>素数的判定</em>：</p>
+<ol>
+<li><strong>费马小定理</strong>——用于素数的==快速判定==<br>对于质数p，任意整数a均满足：a^p^ ≡ a( mod p)</li>
+</ol>
+<p> <em>素数的筛选</em>：</p>
+<ol>
+<li><p><strong>素数埃氏筛法</strong><br>求区间【2，n】中的所有素数<br>1）输出最小的2，再筛掉序列中所有2的倍数，剩下{3,5,7,9,11……n}<br>2）输出最小的3，再筛掉序列中所有3的倍数，剩下{5,7,11……n}<br>3）输出最小的5，再筛掉序列中所有5的倍数，剩下{7,11……n}<br>不断重复上述步骤，直到剩下n</p>
+</li>
+<li><p><strong>素数线性筛法（欧拉筛法）</strong><br>这是为了解决素数埃氏筛法的不足——对于一个合数来说，例如56，在埃氏筛法中会被多次筛——2、7，但这些重复是没有必要的</p>
+<p>欧拉筛法思想——<br>==在艾氏筛法的基础上，让每个合数只被它的最小质因子筛选一次，以达不重复的目的。==</p>
+<p>代码——</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">//欧拉筛法</span><br><span class="line">const int N = 1000001;</span><br><span class="line">int primes[N],cnt;</span><br><span class="line">bool ct[N];</span><br><span class="line"></span><br><span class="line">void eluer(int n)</span><br><span class="line">&#123;</span><br><span class="line">    //初始化数组</span><br><span class="line">    memset(ct,false,sizeof(ct));</span><br><span class="line">    cnt = 0;</span><br><span class="line">    for(int i=2; i&lt;n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        if(!ct[i])</span><br><span class="line">        &#123;</span><br><span class="line">            primes[cnt++] = i;</span><br><span class="line">            //cout &lt;&lt; i &lt;&lt; endl;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int j=0; j&lt;cnt&amp;&amp;i*primes[j]&lt;n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            ct[i*primes[j]] = true;</span><br><span class="line">            if(i%primes[j] == 0)</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<blockquote>
+<p>==if(i%primes[j] == 0)<br>                break;==</p>
+</blockquote>
+<p>   这一句是重点——<br>   i%primes[j] == 0说明i是primes[j]的倍数，即 <strong>i= k*primes[j]</strong> 。如果不break的话，下一次应该就是置 <strong>ct[i*primes[j+1]]</strong> 为true。</p>
+<p>   i * primes[j+1] = k * primes[j] * primes[j+1] = primes[j] * ==k * primes[j+1]==</p>
+<p>   而欧拉筛法所采用的思想就是只用合数的最小素因子去筛，显然不break的话，黄色部分就采用了另一个素因子重复在筛这个合数。</p>
+<p>   为检验学习成果，特地去找了一道题来刷……果然，我还是个弟弟</p>
+<p>很经典的一道<strong>例题</strong>——Prime Distance<br>链接：<a href="http://poj.org/problem?id=2689" target="_blank" rel="noopener">POJ 2689</a><br>题目大意：输入两个数表示范围，求这个范围内的相邻素数中间隔最大和最小的两个素数。<br>解题过程：由于所给数据太大了，不能直接进行求解，可以采取==先求出前50000中的所有素数，然后再映射到所给的区间==。前一步很容易做到，直接调用模板函数就可以了，后面的映射就有一些麻烦。</p>
+<p>进行<strong>区间映射</strong>：前50000内的素数我们是已知的，如今的关键就是去看所给的范围究竟是前50000得到的素数的几倍，然后把其中的合数筛出来，这里有两种做法：<br>1）采用求模的方法</p>
+<p>2）采用直接相除的方法<br>左边界的倍数：==a = (l-1) / su[i] +1==<br>右边界的倍数： ==b = r / su[i]==</p>
+<p>代码——<br>定义MM上界的时候一定要多加注意，不然会wa</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">#define MAX 50005</span><br><span class="line">#define MM 1000005 //啊啊啊这个地方坑死我了，千万不要漏掉0不然会报错超时</span><br><span class="line">#define INF 1e9</span><br><span class="line"></span><br><span class="line">int su[MAX],f[MM];</span><br><span class="line">bool primes[MAX];</span><br><span class="line">int cnt = 0;</span><br><span class="line"></span><br><span class="line">//先筛50000内的素数——欧拉筛法</span><br><span class="line">void get_primes()</span><br><span class="line">&#123;</span><br><span class="line">    //初始化数组</span><br><span class="line">    memset(primes,false,sizeof(primes));</span><br><span class="line"></span><br><span class="line">    for(int i=2; i&lt;MAX; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        if(!primes[i])</span><br><span class="line">            su[cnt++] = i;</span><br><span class="line">        for(int j=0; j*su[i]&lt;MAX &amp;&amp; j&lt;cnt; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            primes[j*su[i]] = true;</span><br><span class="line">            if(i%su[j] == 0)</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    get_primes();</span><br><span class="line">    int l,r;</span><br><span class="line">    while(cin &gt;&gt; l &gt;&gt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        //第一步是映射</span><br><span class="line">        if(l==1)</span><br><span class="line">            l = 2;</span><br><span class="line">        //l如果是1的话，求倍数的时候就会把素数本身当作合数进行标记</span><br><span class="line">        memset(f,0,sizeof(f));</span><br><span class="line">        int a,b;</span><br><span class="line">        for(int i=0; i&lt;cnt; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            a = (l-1)/su[i] +1;</span><br><span class="line">            b = r/su[i];</span><br><span class="line">            for(int j=a; j&lt;=b; j++)</span><br><span class="line">                if(j&gt;1)</span><br><span class="line">                    f[su[i]*j -l] = 1;</span><br><span class="line">        &#125;</span><br><span class="line">        //此时是合数的已经置为1</span><br><span class="line"></span><br><span class="line">        //下面可以采取暴力枚举的方法</span><br><span class="line">        int x1,x2,x3,x4,p=-1,max_ele=-1,min_ele=INF;</span><br><span class="line">        for(int i=0; i&lt;=r-l; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(f[i]==0)</span><br><span class="line">            &#123;</span><br><span class="line">                if(p==-1)</span><br><span class="line">                &#123;</span><br><span class="line">                    p = i;</span><br><span class="line">                    continue;</span><br><span class="line">                &#125;</span><br><span class="line">                if((i-p)&gt;max_ele)</span><br><span class="line">                &#123;</span><br><span class="line">                    max_ele = f[i]-p;</span><br><span class="line">                    x1 = p+l;</span><br><span class="line">                    x2 = i+l;</span><br><span class="line">                &#125;</span><br><span class="line">                if((i-p)&lt;min_ele)</span><br><span class="line">                &#123;</span><br><span class="line">                    min_ele = f[i]-p;</span><br><span class="line">                    x3 = p+l;</span><br><span class="line">                    x4 = i+l;</span><br><span class="line">                &#125;</span><br><span class="line">                p = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(max_ele==-1)cout&lt;&lt;&quot;There are no adjacent primes.&quot;&lt;&lt;endl;</span><br><span class="line">        else cout&lt;&lt;x3&lt;&lt;&quot;,&quot;&lt;&lt;x4&lt;&lt;&quot; are closest, &quot;&lt;&lt;x1&lt;&lt;&quot;,&quot;&lt;&lt;x2&lt;&lt;&quot; are most distant.&quot;&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>写一道题不容易啊呜呜呜~</p>
+<ol start="3">
+<li>还有一个知识点是<strong>反素数</strong><br>反素数<strong>定义</strong>：<br>==对于任意的小于x的正整数 i，都有g(x)&gt;g(i) ，则称x为反素数。==<br>反素数可化为：<strong>? = ?1?1?2?2 … ????</strong></li>
+</ol>
+<p> <strong>性质</strong>：<br>  1）质因子 ?1, ?2, …, ?? 是从==2==开始连续的素数<br>  2）质因子的指数==递减==?<del>1</del> ≥ ?<del>2</del> ≥ ?<del>3</del> … ≥ ?<del>r</del></p>
+<pre><code>这里给出一个大佬的博客链接，专门总结了反素数，太腻害了——[博客地址](https://blog.csdn.net/ACdreamers/article/details/25049767)
+
+有关于反素数的**例题**——
+**题目链接**：[BZOJ1053](https://www.acwing.com/problem/content/description/200/) 反素数
+**题意**：给定一个N，求出不超过N的最大的反素数
+**解题过程**：刚刚给出的链接大佬博客里面有讲这题，并进行了专门分析，我也拙略的分析一下——
+题目范围≤2∗10^9^，素数相乘得：2∗3∗5∗7∗11∗13∗17∗19∗23∗29∗31&gt;2∗10^9^,且根据性质知素数的指数是递减的，所以可以采取dfs方式。
+
+代码——</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef unsigned long long ULL;</span><br><span class="line">const ULL INF = ~0ULL;//无符号长整型的0</span><br><span class="line"></span><br><span class="line">int su[]=&#123;2,3,5,7,11,13,17,19,23,29,31&#125;;</span><br><span class="line"></span><br><span class="line">ULL best,p,n;</span><br><span class="line"></span><br><span class="line">void dfs(int dept, int plu, int num)</span><br><span class="line">&#123;</span><br><span class="line">    //dept表示数的层数，从0开始，即10</span><br><span class="line">    //plu表示当前的相乘得到的数</span><br><span class="line">    //num表示所含有的质数的个数</span><br><span class="line">    if(dept&gt;=11)    //到达边界值</span><br><span class="line">        return;</span><br><span class="line">    if(num &gt; best)</span><br><span class="line">    &#123;</span><br><span class="line">        //best记录原先所含的最多的质因子</span><br><span class="line">        best = num;</span><br><span class="line">        p = plu;</span><br><span class="line">        //更新反素数的值</span><br><span class="line">    &#125;</span><br><span class="line">    if(num==best &amp;&amp; plu&lt;p)</span><br><span class="line">        p = plu;</span><br><span class="line"></span><br><span class="line">    //开始递归部分</span><br><span class="line">    for(int i=1; i&lt;=45; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        if(n/su[dept] &lt; plu)</span><br><span class="line">            break;</span><br><span class="line">        dfs(dept+1, plu*=su[dept], num*(i+1));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    while(cin &gt;&gt; n)</span><br><span class="line">    &#123;</span><br><span class="line">        p = INF;</span><br><span class="line">        best = 0;</span><br><span class="line">        dfs(0,1,1);</span><br><span class="line">        cout &lt;&lt; p &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='https://link.hhtjim.com/163/1397679287.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='https://link.hhtjim.com/163/28875230.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='https://link.hhtjim.com/163/1342087551.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o='YYing2808'
+        data-a='YYing2808'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
